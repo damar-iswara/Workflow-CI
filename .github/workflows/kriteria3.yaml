@@ -40,13 +40,11 @@ jobs:
         git config --global user.name "GitHub Action Bot"
         git config --global user.email "actions@github.com"
         
-        # Add folder model_output (sekarang ada di root)
         git add model_output/*
-        
         git commit -m "Auto-update model artifacts [skip ci]" || echo "No changes to commit"
         
-        # Tarik perubahan terbaru dulu biar gak bentrok
-        git pull --rebase origin main
+        # Pakai opsi '-Xtheirs' -> Artinya: "Dahulukan file yang baru kita commit ini!"
+        git pull --rebase -Xtheirs origin main
         
         git push
 
