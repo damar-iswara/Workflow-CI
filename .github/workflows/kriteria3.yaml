@@ -35,7 +35,7 @@ jobs:
         cd kriteria3
         python modelling.py
 
-    # 5. Commit Artifacts (Model Output)
+    # 5. Commit Artifacts (Model Output) ke GitHub Repo
     - name: Commit Model Artifacts
       run: |
         git config --global user.name "GitHub Action Bot"
@@ -46,6 +46,7 @@ jobs:
         
         git commit -m "Auto-update model artifacts [skip ci]" || echo "No changes to commit"
         
+        # PENTING: Pull dulu biar sinkron dan gak error rejected
         git pull --rebase origin main
         
         git push
@@ -57,17 +58,18 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # 7. Build & Push Docker Image
+    # 7. Build & Push Docker Image ke Docker Hub
     - name: Build and Push Docker Image
       run: |
         cd kriteria3
         
-        # Ganti dengan username dockerhub kamu
-        IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/submission-ml-wahyu:latest
+        # Ganti 'submission-ml-wahyu' kalau mau nama image lain
+        IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/workflow-ci:latest
         
         echo "Building Docker Image: $IMAGE_NAME"
         
-        # Build docker dari folder model_output yang baru dibuat
+        # Build docker dari folder model_output
+        # Option -m model_output artinya dia cari folder di dalam 'cd kriteria3' tadi
         mlflow models build-docker -m model_output -n $IMAGE_NAME --enable-mlserver
         
         # Push ke Docker Hub
