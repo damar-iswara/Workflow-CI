@@ -31,7 +31,7 @@ jobs:
     # 4. Run MLflow Project
     - name: Train Model via MLflow
       run: |
-        mlflow run . --env-manager=local
+        mlflow run . --experiment-name CI_Experiment --env-manager=local
 
     # 5. Upload Artifacts
     - name: Upload Model Artifacts

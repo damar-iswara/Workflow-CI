@@ -25,7 +25,7 @@ def main():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Hapus folder model lama jika ada (biar bersih)
+    # Hapus folder model lama jika ada
     if os.path.exists(MODEL_PATH):
         shutil.rmtree(MODEL_PATH)
 
@@ -44,7 +44,6 @@ def main():
         acc = accuracy_score(y_test, clf.predict(X_test))
         print(f"Accuracy: {acc}")
 
-        # --- PENTING UNTUK DOCKER ---
         # Save model ke folder lokal agar bisa dibuild jadi image
         mlflow.sklearn.save_model(clf, MODEL_PATH)
         print(f"Model saved to {MODEL_PATH}")
